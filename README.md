@@ -1,0 +1,2 @@
+# feedReaderTesting
+Jasmine test suite
