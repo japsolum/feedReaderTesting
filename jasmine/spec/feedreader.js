@@ -50,38 +50,21 @@ $(function() {
     });
     /* Tests that have to do with the slider menu and menu button */
     describe('The Menu', function() {
-        var isHidden = false;
-
-        /* Test that ensures the menu element is
-         * hidden by default.
-         */
-
-        it("Menu should be hidden by default", function() {
-            if ($('body').hasClass("menu-hidden")) {
-                isHidden = true;
-            }
-            expect(isHidden).toBe(true);
+        it ("Menu should be hidden by default", function() { 
+            expect($('body').hasClass("menu-hidden")).toBe(true);
         });
 
-        /* Test that ensures the menu changes
+        /* Tests that ensure the menu changes
           * visibility when the menu icon is clicked.
           */
-        
-        it("Menu shows/hides on click", function() {
-            $('.menu-icon-link').trigger( "click" );
-            var changes; //Variable to keep track of if the click hides and unhides menu
+        it("Menu shows on click", function() {
+            $('.menu-icon-link').trigger( "click" ); 
+            expect($('body').hasClass('menu-hidden')).not.toBe(true);
+        });
 
-            if ($('body').hasClass("menu-hidden")) {
-                changes = false;
-
-            }else{
-                $('.menu-icon-link').trigger('click');
-
-                if($('body').hasClass('menu-hidden')) {
-                    changes = true;
-                }   
-            }
-            expect(changes).toBe(true);
+        it("Menu hides on second click", function() {
+            $('.menu-icon-link').trigger( "click" ); 
+            expect($('body').hasClass('menu-hidden')).toBe(true);
          });
     });
 
@@ -127,13 +110,15 @@ $(function() {
         /* Test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          */
-
-        it("Should change entry after loading feed", function() {
+//Wasn't quite sure what the notes meant? I added done to the parameter so the console error is gone
+//but were they saying I dont need done() at all in the it()? Just in the beforeEach()?
+        it("Should change entry after loading feed", function(done) { 
             loadFeed(1, function() {
                 secondAsync = $('.feed').html();
+                expect(firstAsync).not.toBe(secondAsync);
                 done();
             });
-            expect(firstAsync).not.toBe(secondAsync);
+            
         });
     });
 }());
